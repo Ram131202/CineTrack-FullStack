@@ -1,6 +1,9 @@
 package com.movieapp.movieserver.service;
 
 import com.movieapp.movieserver.model.MovieSearchResult;
+import com.movieapp.movieserver.model.User;
+import com.movieapp.movieserver.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -82,4 +85,24 @@ public class MovieService {
             return new ArrayList<>(); // Return empty list if API fails
         }
     }
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public void saveToWatchlist(String username, String imdbId) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Assuming your User entity has a List<String> or Set<String> for watchlists
+        if (!user.getWatchlist().contains(imdbId)) {
+            user.getWatchlist().add(imdbId);
+            userRepository.save(user);
+        }
+    }
+
+    // public Object getMovieDetails(String imdbId) {
+    //     // Note the "i=" instead of "s=" in the URL
+    //     String url = "https://www.omdbapi.com/?apikey=" + apiKey + "&i=" + imdbId;
+    //     return restTemplate.getForObject(url, Object.class);
+    // }
 }
