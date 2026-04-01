@@ -73,7 +73,30 @@ const Watchlist = () => {
                             >
                                 Remove
                             </button>
+                            {/* inside your movie.map() block */}
+                            <div style={{ marginTop: '10px' }}>
+                                <p style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Available on:</p>
+                                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                                    {movie.ottProviders && movie.ottProviders.length > 0 ? (
+                                        movie.ottProviders.map((provider) => (
+                                            <a 
+                                                key={provider.name} 
+                                                href={provider.url} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                style={{ textDecoration: 'none', color: '#007bff', fontSize: '0.8rem' }}
+                                            >
+                                                {/* If you have icons, use <img> here, otherwise text */}
+                                                {provider.name}
+                                            </a>
+                                        ))
+                                    ) : (
+                                        <span style={{ fontSize: '0.8rem', color: '#999' }}>Not found</span>
+                                    )}
+                                </div>
+                            </div>
                         </div>
+                        
                     ))}
                 </div>
             )}
