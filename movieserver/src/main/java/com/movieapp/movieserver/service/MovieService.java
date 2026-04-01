@@ -101,8 +101,17 @@ public class MovieService {
     }
 
     // public Object getMovieDetails(String imdbId) {
-    //     // Note the "i=" instead of "s=" in the URL
-    //     String url = "https://www.omdbapi.com/?apikey=" + apiKey + "&i=" + imdbId;
-    //     return restTemplate.getForObject(url, Object.class);
+    // // Note the "i=" instead of "s=" in the URL
+    // String url = "https://www.omdbapi.com/?apikey=" + apiKey + "&i=" + imdbId;
+    // return restTemplate.getForObject(url, Object.class);
     // }
+
+    public void removeFromWatchlist(String username, String imdbId) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // This removes the specific IMDb ID string from the user's watchlist set/list
+        user.getWatchlist().remove(imdbId);
+        userRepository.save(user);
+    }
 }

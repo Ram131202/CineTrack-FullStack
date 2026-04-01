@@ -67,4 +67,9 @@ public class MovieController {
         return ResponseEntity.ok(user.getWatchlist());
     }
 
+    @DeleteMapping("/watchlist/{imdbId}")
+    public ResponseEntity<?> removeFromWatchlist(@PathVariable String imdbId, Principal principal) {
+        movieService.removeFromWatchlist(principal.getName(), imdbId);
+        return ResponseEntity.ok("Movie removed from watchlist");
+    }
 }

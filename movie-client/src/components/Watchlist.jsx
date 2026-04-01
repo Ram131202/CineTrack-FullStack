@@ -28,6 +28,16 @@ const Watchlist = () => {
         fetchWatchlistData();
     }, []);
 
+    const handleRemove = async (imdbId) => {
+        try {
+            await api.delete(`/movies/watchlist/${imdbId}`);
+            // Immediately update the UI by filtering out the removed movie
+            setMovies(movies.filter(movie => movie.imdbID !== imdbId));
+        } catch (error) {
+            console.error("Error removing movie:", error);
+        }
+    };
+
     if (loading) return <p style={{ textAlign: 'center' }}>Loading your movies...</p>;
 
     return (
@@ -49,6 +59,20 @@ const Watchlist = () => {
                                 <h4 style={{ margin: '5px 0' }}>{movie.Title}</h4>
                                 <p style={{ fontSize: '0.8rem', color: '#666' }}>{movie.Year} • {movie.Genre}</p>
                             </div>
+                            <button 
+                                onClick={() => handleRemove(movie.imdbID)} 
+                                style={{ 
+                                    marginTop: '10px', 
+                                    backgroundColor: '#ff4d4d', 
+                                    color: 'white', 
+                                    border: 'none', 
+                                    padding: '8px', 
+                                    borderRadius: '5px', 
+                                    cursor: 'pointer' 
+                                }}
+                            >
+                                Remove
+                            </button>
                         </div>
                     ))}
                 </div>
