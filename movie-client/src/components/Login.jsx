@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import api from '../api/axios';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+
+    const navigate = useNavigate();
+    
     const [credentials, setCredentials] = useState({ username: '', password: '' });
     const [message, setMessage] = useState('');
 
@@ -32,6 +36,14 @@ const Login = () => {
                 <button type="submit">Login</button>
             </form>
             <p>{message}</p>
+            <p style={{ marginTop: '15px', fontSize: '0.9rem' }}>
+                Don't have an account? <span 
+                    onClick={() => navigate('/register')} 
+                    style={{ color: '#007bff', cursor: 'pointer', textDecoration: 'underline' }}
+                >
+                    Register here
+                </span>
+            </p>
         </div>
     );
 };

@@ -2,9 +2,11 @@ package com.movieapp.movieserver.controller;
 
 import com.movieapp.movieserver.config.JwtUtil;
 import com.movieapp.movieserver.model.User;
+import com.movieapp.movieserver.repository.UserRepository;
 import com.movieapp.movieserver.service.MovieService;
 import com.movieapp.movieserver.service.UserService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,11 +23,19 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // Endpoint to register a new user
+    @Autowired
+    private UserRepository userRepository;
+
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        User savedUser = userService.registerUser(user);
-        return ResponseEntity.ok(savedUser);
+    // Inside UserService.java
+    public User registerUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // Ensure these are NOT null, or the Watchlist page will crash
+        user.setWatchlist(new ArrayList<>());
+        user.setWatchedList(new ArrayList<>());
+
+        return userRepository.save(user);
     }
 
     // Endpoint to get a user by username (for testing)

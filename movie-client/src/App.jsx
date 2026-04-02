@@ -2,6 +2,7 @@ import { Routes, Route, Link } from 'react-router-dom';
 import MovieSearch from './components/MovieSearch';
 import Watchlist from './components/Watchlist';
 import Login from './components/Login';
+import Register from './components/Register'; // Ensure the path matches where you saved the file
 
 function App() {
   const username = localStorage.getItem('username');
@@ -45,6 +46,7 @@ function App() {
           <Route path="/" element={<MovieSearch />} />
           <Route path="/watchlist" element={<Watchlist />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </div>
     </div>
