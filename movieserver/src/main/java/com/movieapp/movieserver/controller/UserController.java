@@ -27,15 +27,10 @@ public class UserController {
     private UserRepository userRepository;
 
     @PostMapping("/register")
-    // Inside UserService.java
-    public User registerUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        // Ensure these are NOT null, or the Watchlist page will crash
-        user.setWatchlist(new ArrayList<>());
-        user.setWatchedList(new ArrayList<>());
-
-        return userRepository.save(user);
+    public ResponseEntity<?> registerUser(@RequestBody com.movieapp.movieserver.model.User user) {
+        // Log to console to verify the request reached the controller
+        System.out.println("Registration request received for: " + user.getUsername());
+        return ResponseEntity.ok(userService.registerUser(user));
     }
 
     // Endpoint to get a user by username (for testing)

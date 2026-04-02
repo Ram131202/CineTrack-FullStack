@@ -9,13 +9,15 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Adjust the URL if your backend registration path is different
-            await api.post('/api/auth/register', formData);
-            alert("Registration successful! Please login.");
-            navigate('/login');
+            // Updated to match /api/users/register without double-prefixing
+            const response = await api.post('users/register', formData); 
+            console.log(response.data);
+            alert("Registration Successful!");
+            navigate('/login'); // Redirect to login after success
         } catch (error) {
-            console.error("Registration failed", error);
-            alert("Registration failed. Username might already be taken.");
+            // Log the specific response for debugging
+            console.error("Registration error:", error.response?.data || error.message);
+            alert(error.response?.data?.message || "Registration failed. User may already exist."); 
         }
     };
 

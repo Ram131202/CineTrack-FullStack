@@ -75,19 +75,18 @@ const MovieSearch = () => {
     const isHeaderLoggedIn = !!localStorage.getItem('token');
 
     const handleSearch = async (e) => {
-        if (e) e.preventDefault(); // Prevents page refresh
-        if (!query) return;
-
+        if (e) e.preventDefault(); // Stop page reload
         try {
-            // Calls MovieController's @GetMapping("/search") which expects 'title'
+            // Use 'title' param to match your Controller
             const res = await api.get(`/movies/search?title=${query}`);
             
-            // OMDb returns an object with a "Search" array
+            // OMDb results are inside a 'Search' key
             const results = res.data.Search || []; 
-            setMovies(results);
+            
+            // Use the correct state setter
+            setMovies(results); 
         } catch (error) {
             console.error("Search failed:", error);
-            setMovies([]);
         }
     };
 
